@@ -23,7 +23,8 @@ namespace LuaFramework {
                 shared.Load("Dialog", typeof(GameObject));
 #endif
             }
-            if (func != null) func();    //��Դ��ʼ����ɣ��ص���Ϸ��������ִ�к������� 
+            if (func != null) 
+				func();    //��Դ��ʼ����ɣ��ص���Ϸ��������ִ�к������� 
         }
 
         /// <summary>
@@ -39,7 +40,8 @@ namespace LuaFramework {
         /// ������Դ
         /// </summary>
         void OnDestroy() {
-            if (shared != null) shared.Unload(true);
+            if (shared != null) 
+				shared.Unload(true);
             Debug.Log("~ResourceManager was destroy!");
         }
     }

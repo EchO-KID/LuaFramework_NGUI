@@ -195,9 +195,9 @@ namespace LuaFramework {
             }
             yield return new WaitForEndOfFrame();
             message = "更新完成!!";
-            facade.SendMessageCommand(NotiConst.UPDATE_MESSAGE, message);
+            facade.SendMessageCommand(NotiConst.UPDATE_MESSAGE, message);    //! dispatch Update message 
 
-            ResManager.initialize(OnResourceInited);
+            ResManager.initialize(OnResourceInited);  //! 
         }
 
         /// <summary>

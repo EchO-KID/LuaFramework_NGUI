@@ -15,17 +15,21 @@ public class Packager {
     ///-----------------------------------------------------------
     static string[] exts = { ".txt", ".xml", ".lua", ".assetbundle", ".json" };
     static bool CanCopy(string ext) {   //能不能复制
+		
         foreach (string e in exts) {
             if (ext.Equals(e)) return true;
         }
+
         return false;
     }
 
     /// <summary>
-    /// 载入素材
+    /// 装载素材
     /// </summary>
     static UnityEngine.Object LoadAsset(string file) {
-        if (file.EndsWith(".lua")) file += ".txt";
+        if (file.EndsWith(".lua")) 
+			file += ".txt";
+		
         return AssetDatabase.LoadMainAssetAtPath("Assets/LuaFramework/Examples/Builds/" + file);
     }
 
@@ -60,11 +64,14 @@ public class Packager {
             Directory.Delete(Util.DataPath, true);
         }
 
+
+		//! 清除之前的bundle
         string streamPath = Application.streamingAssetsPath;
         if (Directory.Exists(streamPath)) {
             Directory.Delete(streamPath, true);
         }
 
+		//! 刷新 Asset
         AssetDatabase.Refresh();
 
         if (AppConst.ExampleMode) {
@@ -227,6 +234,8 @@ public class Packager {
         Object[] addis = null;     //附加素材名，多个
         string assetfile = string.Empty;  //素材文件名
 
+
+
         BuildAssetBundleOptions options = BuildAssetBundleOptions.UncompressedAssetBundle |
                                           BuildAssetBundleOptions.CollectDependencies |
                                           BuildAssetBundleOptions.DeterministicAssetBundle;
@@ -234,11 +243,14 @@ public class Packager {
         if (Directory.Exists(dataPath)) {
             Directory.Delete(dataPath, true);
         }
+
         string assetPath = AppDataPath + "/StreamingAssets/";
         if (Directory.Exists(dataPath)) {
             Directory.Delete(assetPath, true);
         }
-        if (!Directory.Exists(assetPath)) Directory.CreateDirectory(assetPath);
+
+        if (!Directory.Exists(assetPath)) 
+			Directory.CreateDirectory(assetPath);
 
         ///-----------------------------生成共享的关联性素材绑定-------------------------------------
         BuildPipeline.PushAssetDependencies();
