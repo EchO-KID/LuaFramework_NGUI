@@ -188,21 +188,23 @@ namespace LuaFramework {
         /// </summary>
         public static string DataPath {
             get {
-                string game = AppConst.AppName.ToLower();
+
+				string game = AppConst.AppName.ToLower();
+				string dataPath = "c:/" + game + "/";
                 if (Application.isMobilePlatform) {
-                    return Application.persistentDataPath + "/" + game + "/";
+					dataPath =  Application.persistentDataPath + "/" + game + "/";   //! 储存目录/game/
                 }
                 if (Application.platform == RuntimePlatform.WindowsPlayer) {
-                    return Application.streamingAssetsPath + "/";
+					dataPath =  Application.streamingAssetsPath + "/";
                 }
-                if (AppConst.DebugMode && Application.isEditor) {
-                    return Application.streamingAssetsPath + "/";
+				if (AppConst.DebugMode && Application.isEditor) {
+					dataPath =  Application.streamingAssetsPath + "/";
                 }
                 if (Application.platform == RuntimePlatform.OSXEditor) {
                     int i = Application.dataPath.LastIndexOf('/');
-                    return Application.dataPath.Substring(0, i + 1) + game + "/";
+					dataPath =  Application.dataPath.Substring(0, i + 1) + game + "/";
                 }
-                return "c:/" + game + "/";
+				return dataPath;
             }
         }
 

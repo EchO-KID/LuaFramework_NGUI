@@ -42,6 +42,7 @@ public class Packager {
 
     [MenuItem("LuaFramework/Build Android Resource", false, 101)]
     public static void BuildAndroidResource() {
+		//! 构建 android 资源
         BuildAssetResource(BuildTarget.Android);
     }
 
@@ -54,25 +55,31 @@ public class Packager {
     /// 生成绑定素材
     /// </summary>
     public static void BuildAssetResource(BuildTarget target) {
+		
         if (Directory.Exists(Util.DataPath)) {
             Directory.Delete(Util.DataPath, true);
         }
+
         string streamPath = Application.streamingAssetsPath;
         if (Directory.Exists(streamPath)) {
             Directory.Delete(streamPath, true);
         }
+
         AssetDatabase.Refresh();
 
         if (AppConst.ExampleMode) {
             HandleExampleBundle(target);
         }
+
         if (AppConst.LuaBundleMode) {
             HandleBundle();
         } else {
             HandleLuaFile();
         }
+
         BuildFileIndex();
         AssetDatabase.Refresh();
+
     }
 
     static void HandleBundle() {
@@ -394,7 +401,7 @@ public class Packager {
             UnityEngine.Debug.LogError("若使用编码Protobuf-lua-gen功能，需要自己配置外部环境！！");
             return;
         }
-        string dir = AppDataPath + "/Lua/3rd/pblua";
+		string dir = AppDataPath + "/LuaFramework/Lua/3rd/pblua";
         paths.Clear(); files.Clear(); Recursive(dir);
 
         string protoc = "d:/protobuf-2.4.1/src/protoc.exe";

@@ -134,13 +134,16 @@ namespace LuaFramework {
                 ResManager.initialize(OnResourceInited);
                 yield break;
             }
+
             string dataPath = Util.DataPath;  //数据目录
             string url = AppConst.WebUrl;
             string random = DateTime.Now.ToString("yyyymmddhhmmss");
-            string listUrl = url + "files.txt?v=" + random;
+            string listUrl = url + "files.txt?v=" + random;     //! 
             Debug.LogWarning("LoadUpdate---->>>" + listUrl);
 
-            WWW www = new WWW(listUrl); yield return www;
+            WWW www = new WWW(listUrl);          //! 获取补丁文件列表
+			yield return www;
+
             if (www.error != null) {
                 OnUpdateFailed(string.Empty);
                 yield break;
@@ -148,28 +151,30 @@ namespace LuaFramework {
             if (!Directory.Exists(dataPath)) {
                 Directory.CreateDirectory(dataPath);
             }
-            File.WriteAllBytes(dataPath + "files.txt", www.bytes);
+            File.WriteAllBytes(dataPath + "files.txt", www.bytes);  //! 存储 files.txt
 
             string filesText = www.text;
             string[] files = filesText.Split('\n');
 
             string message = string.Empty;
             for (int i = 0; i < files.Length; i++) {
-                if (string.IsNullOrEmpty(files[i])) continue;
+                if (string.IsNullOrEmpty(files[i])) 
+					continue;
                 string[] keyValue = files[i].Split('|');
-                string f = keyValue[0];
-                string localfile = (dataPath + f).Trim();
-                string path = Path.GetDirectoryName(localfile);
+                string f = keyValue[0];        //! 文件
+                string localfile = (dataPath + f).Trim();  //! 本地路径
+                string path = Path.GetDirectoryName(localfile); //! 获取本地文件目录
                 if (!Directory.Exists(path)) {
                     Directory.CreateDirectory(path);
                 }
-                string fileUrl = url + keyValue[0] + "?v=" + random;
-                bool canUpdate = !File.Exists(localfile);
+                string fileUrl = url + keyValue[0] + "?v=" + random;  
+                bool canUpdate = !File.Exists(localfile); //! 本地是否存在
                 if (!canUpdate) {
-                    string remoteMd5 = keyValue[1].Trim();
-                    string localMd5 = Util.md5file(localfile);
-                    canUpdate = !remoteMd5.Equals(localMd5);
-                    if (canUpdate) File.Delete(localfile);
+                    string remoteMd5 = keyValue[1].Trim();    //! filelist 中的 md5
+                    string localMd5 = Util.md5file(localfile); //! 本地文件的md5
+                    canUpdate = !remoteMd5.Equals(localMd5);  //! 如果不等，则更新
+                    if (canUpdate) 
+						File.Delete(localfile);
                 }
                 if (canUpdate) {   //本地缺少文件
                     Debug.Log(fileUrl);

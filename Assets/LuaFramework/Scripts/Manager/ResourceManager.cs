@@ -8,7 +8,7 @@ namespace LuaFramework {
         private AssetBundle shared;
 
         /// <summary>
-        /// ³õÊ¼»¯
+        /// ï¿½ï¿½Ê¼ï¿½ï¿½
         /// </summary>
         public void initialize(Action func) {
             if (AppConst.ExampleMode) {
@@ -16,27 +16,27 @@ namespace LuaFramework {
                 string uri = Util.DataPath + "shared" + AppConst.ExtName;
                 Debug.LogWarning("LoadFile::>> " + uri);
 
-                shared = AssetBundle.CreateFromFile(uri);
+                shared = AssetBundle.LoadFromFile(uri);
 #if UNITY_5
                 shared.LoadAsset("Dialog", typeof(GameObject));
 #else
                 shared.Load("Dialog", typeof(GameObject));
 #endif
             }
-            if (func != null) func();    //×ÊÔ´³õÊ¼»¯Íê³É£¬»Øµ÷ÓÎÏ·¹ÜÀíÆ÷£¬Ö´ÐÐºóÐø²Ù×÷ 
+            if (func != null) func();    //ï¿½ï¿½Ô´ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½Øµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ðºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         }
 
         /// <summary>
-        /// ÔØÈëËØ²Ä
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½
         /// </summary>
         public AssetBundle LoadBundle(string name) {
             string uri = Util.DataPath + name.ToLower() + AppConst.ExtName;
-            AssetBundle bundle = AssetBundle.CreateFromFile(uri); //¹ØÁªÊý¾ÝµÄËØ²Ä°ó¶¨
+            AssetBundle bundle = AssetBundle.LoadFromFile(uri); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ø²Ä°ï¿½
             return bundle;
         }
 
         /// <summary>
-        /// Ïú»Ù×ÊÔ´
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
         /// </summary>
         void OnDestroy() {
             if (shared != null) shared.Unload(true);
